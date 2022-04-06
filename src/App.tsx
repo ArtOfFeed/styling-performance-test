@@ -1,26 +1,59 @@
 import React from 'react';
 import './App.css';
 
-import * as styled from './components/styled';
-import * as emotion from './components/compiled';
+import { Atlassian } from './components/atlassian';
+import { Adobe } from './components/adobe';
+import { Material } from './components/material';
+import { Chakra } from './components/chakra';
+import { Microsoft } from './components/microsoft'
 
-function App() {
-  const [framework, setFramework] = React.useState<'none' | 'styled' | 'emotion'>('none');
-  const thousand = Array(1000).fill(0);
+type Frameworks = 'none' | 'atlassian' | 'adobe' | 'material' | 'microsoft' | 'chakra';
+const renders = 50;
+
+const App = () => {
+  const [framework, setFramework] = React.useState<Frameworks>('none');
+  const thousand = Array(renders).fill(0);
+
+  const chooseFrameWork = (fwk: Frameworks) => {
+    switch (fwk) {
+      case 'atlassian':
+        return <Atlassian />
+      case 'adobe':
+        return <Adobe />
+      case 'material':
+        return <Material />
+      case 'microsoft':
+        return <Microsoft />
+      case 'chakra':
+        return <Chakra />
+      default:
+        return 'No framework'
+    }
+  }
+
   return (
     <div className="App">
       <button id="none" onClick={() => setFramework('none')}>None</button>
-      <button id="styled" onClick={() => setFramework('styled')}> Styled</button>
-      <button id="emotion" onClick={() => setFramework('emotion')}> Emotion</button>
+      <button id="atlassian" onClick={() => setFramework('atlassian')}> Atlassian</button>
+      <button id="adobe" onClick={() => setFramework('adobe')}>Adobe</button>
+      <button id="material" onClick={() => setFramework('material')}> Material</button>
+      <button id="microsoft" onClick={() => setFramework('microsoft')}>Microsoft</button>
+      <button id="chakra" onClick={() => setFramework('chakra')}>Chakra</button>
 
-      {
-        framework === 'styled' ? <styled.Column id="root" gap={10}>
-          {thousand.map((_, i) => (<styled.Button key={i}>{i}</styled.Button>))}
-        </styled.Column>
-          : framework === 'emotion' ? <emotion.Column id="root" gap={10}>
-            {thousand.map((_, i) => (<emotion.Button key={i}>{i}</emotion.Button>))}
-          </emotion.Column>
+      {/* {
+        framework === 'atlassian' ? <div id="root">
+          {thousand.map((_, i) => (<Atlassian key={i} />))}
+        </div>
+          : framework === 'adobe' ? <div id="root">
+            {thousand.map((_, i) => (<Chakra key={i} />))}
+          </div>
             : <div>Select a Framework</div>
+      } */}
+      {
+        framework === 'none' ? <div id="root">Choose framework</div> :
+        <div id="root">
+          {thousand.map((_, i) => (chooseFrameWork(framework)))}
+        </div>
       }
     </div>
   );
